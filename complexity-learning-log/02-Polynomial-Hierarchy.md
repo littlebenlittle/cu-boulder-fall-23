@@ -35,8 +35,6 @@ By applying (3) in (4),
 
 So we have $C \subseteq \text{co}C \land \text{co}C \subseteq C \implies C \equiv \text{co}C$. $\Box$
 
-## Problem 2
-
 ### Part b
 
 Using the result of part a, this reduces to showing that $P \subseteq \text{co} P$.
@@ -48,6 +46,8 @@ $P \subseteq \text{co} P$
 #### Proof
 
 Given a polynomial time TM $T$ that decides a language $L \in P$, construct a TM that simulates $T$ but returns the opposite result. This machine returns 1 for "no" instances of $L$ and 0 for "yes" instances, hence it correctly decides $\bar{L}$ and runs in polynomial time. Therefore $\bar{L} \in P$. $\Box$
+
+\newpage{}
 
 ### Part c
 
@@ -80,6 +80,8 @@ By (2) and (4)
 If $NP$ were to equal $\text{co}NP$, then it would always be possible to provide a polynomial-time verifiable witness that no solution to a $NP$ problem instances exists. For SAT, this would mean that every unsatsifiable formula could be proven unsatisfiable using a proof that is only polynomial in the number of variables. Given there are $2^n$ possible assignments, it feels unlikely that a polynomial size witness could demonstrate this.
 
 There are some examples where there this is possible, however. A CNF formula containing $x \land \lnot x$ anywhere has a very short proof of unsatisfiability! Expecting that *every* formula would have a short witness like this feels like a stretch, and I would expect that any proof of $NP = \text{co}NP$ would be non-constructive, as there are exponentially (in the number of vars) ways for a formula to be unsatisfiable.
+
+\newpage{}
 
 ## Problem 3
 
@@ -121,6 +123,8 @@ By (1) and (2):
 
 By problem 1a, $NP = \text{co}NP$
 
+\newpage{}
+
 ## Problem 4
 
 $V(-)$ is a polynomial time verifier.
@@ -135,7 +139,7 @@ So there exists a p-time verifier $V$ such that for each $x \in L$ there exists 
 
 $\Pi_0 P = \{L | \exists V(-) \; \forall x \in L \; \forall^p w \;.\; V(x,w) = L(x) \}$
 
-This a little tricker. Notice that the quantifier in $\forall^p w \;.\; V(w,x) = L(x)$ can be inverted to yield $\lnot \exists^p w \;.\; V(x,w) \neq L(x)$. So there exists no witness that can decide if $x \in \bar{L}$. This is the definition of $\text{co}NP$.
+This a little trickier. Notice that the quantifier in $\forall^p w \;.\; V(w,x) = L(x)$ can be inverted to yield $\lnot \exists^p w \;.\; V(x,w) \neq L(x)$. So there exists no witness that can decide if $x \in \bar{L}$. This is the definition of $\text{co}NP$.
 
 ## Problem 5
 
@@ -150,3 +154,43 @@ Proof by induction on the $k$ of $\Sigma_k P \cup \Pi_k P$.
 Base case: solution to problem 4 and $P \subseteq \text{PSPACE}$.
 
 Inductive case: check each binary-encoded assignemnt of the $(k+1)$-th witness. If this is an existential witness, run until a satsfying assignment is found or all possiblitities have been exhausted. If it is a universal witness, run until a non-satsifying assignment is found or all possiblities have been exhausted. In either case, we do not need to remember what those assignements were because there exists a total ordering on binary assignments, so this check runs in $\text{PSPACE}$. By the inductive hypthesis, $\Sigma_k P \cup \Pi_k P \subseteq \text{PSPACE}$, and so the entire algorithm runs in $\text{PSPACE}$.
+
+\newpage{}
+
+## Problem 6
+
+Let $L \in \Sigma_k P$. Then
+
+$\exists \; V \; \forall \; x \in L \; \exists \; w_k \; \forall \; w_{k-1} \; \cdots \; V(w,x) = L(x)$
+
+For $\bar{L}$,
+
+$\exists \; V \; \forall \; x \in \bar{L} \; \exists \; w_k \; \forall \; w_{k-1} \; \cdots \; V(w,x) = \lnot \bar{L}(x)$
+
+By pushing the $\lnot$ through the quantifiers, this is equivalent to
+
+$\exists \; V \; \forall \; x \in \bar{L} \; \lnot \; \forall \; w_k \; \exists \; w_{k-1} \; \cdots \; V(w,x) = \bar{L}(x)$
+
+which is the negation of the formula that constrains $\Pi_k P$. So the set of languages that satsify this formula is the complement of $\Pi_k P$, i.e. $\text{co}\Pi_k P$.
+
+I am not fully satisfied with this proof.
+
+## Problem 7
+
+$\Sigma_k P \subseteq \Sigma_{k+1} P \cap \Pi_{k+1} P$.
+
+To show $\Sigma_k P \subseteq \Pi_{k+1} P$, take any language in $\Sigma_k P$ and consider the verifier for that language. Then use the same verifier, but add an extra witness that is ignored. Then every witness you plug into the new verifier still decides if $x$ is in $L$. This corresponds to adding a universally-quantified witness to the righthand side, so $L \in \Pi_{k+1} P$.
+
+To show $\Sigma_k P \subseteq \Sigma_{k+1} P$, do the same thing except stick the alternating quantifier on the righthand side. Because the argument is ignored, it doesn't matter if the quantifier is universal or existential.
+
+### Part a
+
+$\Sigma_k P \cup \Pi_k P \subseteq \Sigma_{k+1} P \cap \Pi_{k+1} P$
+
+The same argument works for $\Pi_k \subseteq \Sigma_{k+1} P \cap \Pi_{k+1} P$, making sure to put the appropriate quantifier on the right or left side.
+
+### Part b
+
+$PH = \bigcup_{k \geq 0} \Pi_k P$
+
+Because $\Sigma_k P \cup \Pi_k P \subseteq \Pi_{k+1} P$, the standard definition of $PH = \bigcup_k \Sigma_k P \cup \Pi_k P$ is subsumed by $(\bigcup_k \Pi_{k+1}) P \cup \Sigma_0 P$. But $Sigma_0 P = \Pi_0 P$ so this can also be written as $(\bigcup_k \Pi_{k+1}) P$.
