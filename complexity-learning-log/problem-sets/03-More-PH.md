@@ -83,3 +83,35 @@ By assumption $\Sigma_{k+1} P = \Sigma_k P$, so
 $\Sigma_{k+j} P = (\Sigma_{k} P) \uparrow^j NP = (\Sigma_{k+1} P) \uparrow^j NP = \cdots = \Sigma_{k+j+1} P$
 
 So for all $j$, $\Sigma_k P = \Sigma_{k+1} P \implies \Sigma_{k+j+1} P = \Sigma_{k+j} P$. By induction on $j$, PH collapses to $\Sigma_k P$.
+
+## Problem 5
+
+### Part a
+
+If a language is in $P/poly$ then there exists advice strings $a_n$ that help a machine decide the language in $P$ time.
+
+So $NP \subseteq P/poly$ implies that for each $NP$ language there is such a sequence $a_n$.
+
+Encode each advice string into a circuit $C_n$. Then we have a family of $P$-size circuits to decide the language.
+
+Since SAT is in $NP$, there is such a circuit family.
+
+For all formulas of size $n$, the circuit $C_{n-1}$ will tell us if there exists a satisfying assignment to the formula with first variable set to zero or one. We need to check at most $2n$ assignments, so which corresponds to at most $2n$ circuits of size $O(n^k)$ sub-circuits. The entire circuit is therefore $P$-size. $\; \Box$
+
+### Part b
+
+The fact that advice strings are universally quantified by string lengths is preventing me from finding a logical description of $P/poly$ that is consistent with that of $PH$.
+
+Here's the closest I have managed to get:
+
+The defininition of $\Pi P$ is
+
+$L \in \Pi_2 P \implies \exists V \in P \; \forall x \in L \; \forall^p w_1 \; \exists^p w_2 \;.\; (x,w_1,w_2) \in V$
+
+(by handwaving) This can be rewritten as
+
+$\exists W \in NP \; \forall x \in L \; \forall^p w \;.\; (x,w) \in W$
+
+If $NP \in P/poly$, then for each string length, there exists an advice string that helps decide $W$.
+
+$\exists Z \in P \; \forall n \; \forall (x,w) \in L \;.\; |(x,w)| = n \implies \exists^p a_n \;.\; (x,a_n) \in Z$
