@@ -12,7 +12,7 @@ $L_A \in \text{PSPACE}$ because it takes 1 bit to store the parity as each of th
 
 ### Part 2
 
-Consider some ordering of NP machines where machine $M_i(1^n)$ is time bounded by $n^f(i)$ for some monotonic increasing $f$.
+Consider some ordering of NP machines where machine $M_i(1^n)$ is time bounded by $n^{f(i)}$ for some monotonic increasing $f$.
 
 1. Looking at $M_i$, pick $n$ large enough all prior machines could not have queried strings of length $n$ within their time bounds.
 2. Then if $M_i(1^n) = 1$ and $1^n \in L_A$, pick any accepting trace and add/remove some of the strings in $A$ NOT queried so that $1^n \notin L_A$ while $M_i(1^n)$ is still 1.
